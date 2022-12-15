@@ -89,14 +89,14 @@ def lunar_eclipses(start_time, end_time, eph):
     pi_s = ERAD / 1e3 / length_of(earth_to_sun)
     s_s = solar_radius_km / length_of(earth_to_sun)
 
-    pi_1 = 0.998340 * pi_m
-
     closest_approach = angle_between(earth_to_sun, moon_to_earth)
     moon_radius = arcsin(moon_radius_km / length_of(moon_to_earth))
 
-    atmosphere_blur = 1.02
-    penumbra_radius = atmosphere_blur * (pi_1 + pi_s + s_s)
-    umbra_radius = atmosphere_blur * (pi_1 + pi_s - s_s)
+    # Use Danjon's method for calculating enlargement of Earth's shadow
+    # See https://eclipse.gsfc.nasa.gov/LEcat5/shadow.html
+    pi_1 = 1.01 * pi_m
+    penumbra_radius = pi_1 + pi_s + s_s
+    umbra_radius = pi_1 + pi_s - s_s
 
     penumbral = closest_approach < penumbra_radius + moon_radius
 
