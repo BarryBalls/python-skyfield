@@ -108,6 +108,10 @@ def lunar_eclipses(start_time, end_time, eph):
     penumbra_radius = penumbra_radius[penumbral]
     umbra_radius = umbra_radius[penumbral]
 
+    # Calculate fraction of the Moon's diameter covered by the Earth’s shadow
+    umbral_magnitude = (umbra_radius + moon_radius - closest_approach) / (2 * moon_radius)
+    penumbral_magnitude = (penumbra_radius + moon_radius - closest_approach) / (2 * moon_radius)
+
     partial = closest_approach < umbra_radius + moon_radius
     total = closest_approach < umbra_radius - moon_radius
 
@@ -119,6 +123,8 @@ def lunar_eclipses(start_time, end_time, eph):
         'moon_radius_radians': moon_radius,
         'penumbra_radius_radians': penumbra_radius,
         'umbra_radius_radians': umbra_radius,
+        'umbral_magnitude': umbral_magnitude,
+        'penumbral_magnitude': penumbral_magnitude,
     }
 
     return t, code, details
